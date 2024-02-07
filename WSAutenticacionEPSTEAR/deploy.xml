@@ -1,0 +1,28 @@
+<project name="webservice-deploy" basedir="." default="all">
+ <property file="deploy.properties"/> 
+ 
+ <path id="class.path">
+	<fileset dir="${lib.dir}" includes="*.jar"/>
+	<fileset dir="c:/bea/wlserver_10.3/server/lib" includes="weblogic.jar"/>
+  </path>
+ <taskdef name="wldeploy"
+	  classname="weblogic.ant.taskdefs.management.WLDeploy" 
+	    classpathref="class.path"/>
+ <target name="all" depends="clean,deploy" />
+ <target name="clean" depends="undeploy">
+  <delete dir="${dir-output}" />
+ </target>
+ <target name="deploy">
+  <wldeploy action="deploy" name="${war.deployed.name}"
+   source="${war-dir}/${war-name}" user="${wls.username}" password="${wls.password}"
+   verbose="true" adminurl="t3://${wls.hostname}:${wls.port}"
+   targets="${wls.server.name}" upload="true"/>
+ </target>
+ <target name="undeploy">
+  <wldeploy action="undeploy" failonerror="false"
+   name="${war.deployed.name}" user="${wls.username}"
+   password="${wls.password}" verbose="true"
+   adminurl="t3://${wls.hostname}:${wls.port}"
+   targets="${wls.server.name}" />
+ </target>
+</project>

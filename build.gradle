@@ -1,0 +1,43 @@
+plugins {
+    id 'ear'
+    id 'java'
+    id 'war'
+}
+
+repositories {
+    jcenter()
+}
+
+// Configuración de compilación y ejecución
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// Configuración específica para el plugin 'ear'
+ear {
+    // Nombre del archivo EAR
+    archiveFileName = 'WSAutenticacionEPSTEAR.ear'
+
+    // Agregar los archivos WAR al EAR
+    from('WSAutenticacionEPST/build/target') {
+        include '*.war'
+        into '/'
+    }
+
+    // Agregar contenido a la carpeta META-INF
+    from('WSAutenticacionEPSTEAR/EarContent/META-INF') {
+        into 'META-INF'
+    }
+
+    // Agregar la carpeta APP-INF al EAR
+    into('APP-INF') {
+        from { file('WSAutenticacionEPSTEAR/EarContent/APP-INF') }
+    }
+
+    // Estrategia de manejo de duplicados para application.xml
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE // O puedes usar otras estrategias según tus necesidades
+}
+
+// Tarea predeterminada: compilar y empaquetar el EAR
+//task buildEar(type: Ear)
+
+// Configuración adicional si es necesaria

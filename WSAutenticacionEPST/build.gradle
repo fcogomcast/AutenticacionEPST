@@ -1,0 +1,83 @@
+plugins {
+    id 'war'
+    id 'java'
+}
+
+repositories {
+    jcenter()
+}
+
+// Configuraci�n de compilaci�n y ejecuci�n
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// Dependencias del proyecto
+dependencies {
+    // A�ade las dependencias que necesites desde la carpeta 'webcontent/lib'
+    implementation fileTree(dir: 'webcontent/WEB-INF/lib', include: ['*.jar'])
+    //implementation fileTree(dir: 'webcontent/WEB-INF', include: ['*.xml'])
+    implementation 'javax.servlet:javax.servlet-api:3.1.0'
+    // A�ade otras dependencias aqu�
+}
+// Ruta de las clases Java a compilar
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+        }
+    }
+}
+
+// Tareas de compilaci�n y empaquetado
+tasks.withType(JavaCompile) {
+    options.encoding = 'Cp1252'
+}
+
+// Configuraci�n espec�fica para el plugin 'war'
+war {
+    archiveFileName = "$buildDir/target/WSAutenticacionEPST.war" // Cambia esto por el nombre que desees para tu archivo WAR
+
+    // Agrega todos los archivos WSDL
+    from('wsdl') {
+        include '**/*.wsdl'
+        into 'WEB-INF/classes'
+    }
+
+    // Agrega archivo HandleChange.xml
+    from('src/es/tributasenasturias/services/autenticacion') {
+        include '**/*.xml'
+        into 'WEB-INF/classes/es/tributasenasturias/services/autenticacion'
+    }
+
+    // Agrega carpeta resources
+    from('resources/es/tributasenasturias/services/autenticacion/resources') {
+        include '**/*.properties'
+        into 'WEB-INF/classes/es/tributasenasturias/services/autenticacion/resources'
+    }
+
+    // Agrega carpeta wsdl
+    from('resources/wsdl') {
+        include '**/*.wsdl'
+        into 'WEB-INF/classes/wsdl'
+    }
+
+    // Agrega carpeta xml
+    from('resources/xml') {
+        include '**/*.xml'
+        into 'WEB-INF/classes/xml'
+    }
+
+    // Agrega carpeta xsd
+    from('resources/xsd') {
+        include '**/*.xsd'
+        into 'WEB-INF/classes/xsd'
+    }
+
+    // Agrega solo los archivos XML de la carpeta WEB-INF
+    webInf {
+        from 'webcontent/WEB-INF', {
+            include '*.xml'
+        }
+    }
+}
+

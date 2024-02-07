@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://services.tributasenasturias.es/WSAutenticacionEPST/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="WSAutenticacionEPST" targetNamespace="http://services.tributasenasturias.es/WSAutenticacionEPST/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://services.tributasenasturias.es/WSAutenticacionEPST/">
+      <xsd:element name="ValidacionCertificado">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="certificado" type="xsd:base64Binary" >
+          		<xsd:annotation>
+          			<xsd:documentation>
+          				Certificado a verificar, en formato base 64.
+          			</xsd:documentation>
+          		</xsd:annotation></xsd:element>
+          	<xsd:element name="tiposAdmitidos" minOccurs="0" maxOccurs="1" type="tns:tiposAdmitidosType">
+          		<xsd:annotation>
+          			<xsd:documentation>
+          				Tipos de certificado que se consideran
+          				correctos
+          				Si no existe, los datos de admitidos se cogerán de
+          				configuración del servicio: 
+          				0 = Persona física 
+          				1= Persona física y Persona juridica 
+          				2= Persona física,persona jurídica y componentes 
+          				3= los de 2 + Sede 
+          				4 = los de 3 + Sello electrónico 
+          				5 = los de 4 + Sello de Empleado público 
+          				6 = los de 5+ Entidad sin personalidad jurídica
+          				7 = empleado público con pseudónimo
+          				8 = certificado cualificado de sello
+          				9 = certificado cualificado de autenticación del sitio web
+          				10 = certificado cualificado de sello de tiempo
+          				11 = certificado de persona física representante ante las administraciones públicas de persona jurídica
+          				12 = certificado de persona física representante ante las administraciones públicas de entidad sin persona jurídica
+          			</xsd:documentation>
+          		</xsd:annotation>          	</xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ValidacionCertificadoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="InformacionCertificado"
+          		type="tns:InformacionCertificadoType" />
+          	<xsd:element name="Resultado" type="tns:ResultadoType"></xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    
+      <xsd:complexType name="InformacionCertificadoType">
+                <xsd:annotation>
+                	<xsd:documentation>
+                		Información del certificado. Se asegura que
+                		contendrá datos válidos únicamente si la
+                		validación de certificado ha terminado con
+                		éxito.
+                	</xsd:documentation>
+                </xsd:annotation>
+                <xsd:sequence>
+                	<xsd:element name="Elemento" type="tns:ElementoType" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+                </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="ResultadoType">
+      	<xsd:sequence>
+      		<xsd:element name="esValido" type="xsd:boolean"></xsd:element>
+      		<xsd:element name="cod_resultado" type="xsd:string"></xsd:element>
+      		<xsd:element name="desc_resultado" type="xsd:string"></xsd:element>      	</xsd:sequence>
+      </xsd:complexType>
+    
+      <xsd:complexType name="ElementoType">
+      	<xsd:sequence>
+      		<xsd:element name="identificador" type="xsd:string"></xsd:element>
+      		<xsd:element name="valor" type="xsd:string"></xsd:element>
+      	</xsd:sequence>
+      </xsd:complexType>
+    
+      <xsd:simpleType name="tipoAdmitidoType">
+      	<xsd:restriction base="xsd:int"></xsd:restriction>
+      </xsd:simpleType>
+    
+        
+    
+      <xsd:complexType name="tiposAdmitidosType">
+      	<xsd:sequence>
+      		<xsd:element name="tipoAdmitido" type="tns:tipoAdmitidoType" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+      	</xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ValidacionCertificadoRequest">
+    <wsdl:part element="tns:ValidacionCertificado" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ValidacionCertificadoResponse">
+    <wsdl:part element="tns:ValidacionCertificadoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="WSAutenticacionEPST">
+    <wsdl:operation name="ValidacionCertificado">
+      <wsdl:input message="tns:ValidacionCertificadoRequest"/>
+      <wsdl:output message="tns:ValidacionCertificadoResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSAutenticacionEPSTSOAP" type="tns:WSAutenticacionEPST">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ValidacionCertificado">
+      <soap:operation soapAction="http://services.tributasenasturias.es/WSAutenticacionEPST/ValidacionCertificado"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSAutenticacionEPST">
+    <wsdl:port binding="tns:WSAutenticacionEPSTSOAP" name="WSAutenticacionEPSTSOAP">
+      <soap:address location="http://bus.explo.epst.pa:7101/WSAutenticacionEPST/ProxyServices/PXAutenticacionEPST"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

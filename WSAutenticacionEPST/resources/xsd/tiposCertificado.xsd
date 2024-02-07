@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tip="tiposcertificado.tributasenasturias.es" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="tiposcertificado.tributasenasturias.es" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="TiposCertificadoAdmitidos">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="TipoCertificado">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="1" name="clasificacion" type="xs:string" />
+              <xs:element minOccurs="1" name="descripcion" type="xs:string" />
+              <xs:element minOccurs="1" name="admitido">
+              	<xs:simpleType>
+              		<xs:restriction base="xs:string">
+              			<xs:enumeration value="S"></xs:enumeration>
+              			<xs:enumeration value="N"></xs:enumeration>
+              		</xs:restriction>
+              	</xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

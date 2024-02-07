@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Plataforma id="afirma">
+	<mapa_mensajes>
+		<mapa_mensaje>
+			<remoto>0</remoto>
+			<epst>0000</epst>
+			<epst_texto>Certificado validado</epst_texto>
+		</mapa_mensaje>
+		<mapa_mensaje>
+			<remoto>1</remoto>
+			<epst>9001</epst>
+			<epst_texto>El certificado no pasó la validación.</epst_texto>
+		</mapa_mensaje>
+		<mapa_mensaje>
+			<remoto>2</remoto>
+			<epst>9002</epst>
+			<epst_texto>La cadena de certificación no es correcta.</epst_texto>
+		</mapa_mensaje>
+		<mapa_mensaje>
+			<remoto>3</remoto>
+			<epst>9003</epst>
+			<epst_texto>El certificado está revocado.</epst_texto>
+		</mapa_mensaje>
+		<mapa_mensaje>
+			<remoto>4</remoto>
+			<epst>9004</epst>
+			<epst_texto>No se ha podido determinar el estado del certificado.</epst_texto>
+		</mapa_mensaje>
+	</mapa_mensajes>
+</Plataforma>
