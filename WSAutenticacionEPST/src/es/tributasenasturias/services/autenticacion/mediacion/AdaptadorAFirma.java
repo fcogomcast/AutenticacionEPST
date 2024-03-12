@@ -164,7 +164,7 @@ public class AdaptadorAFirma {
 		Node respuesta = XMLDOMUtils.selectSingleNode(doc.getDocumentElement(), "//*[local-name()='ValidarCertificadoReturn']");
 		if (respuesta!=null)
 		{
-			payload = XMLDOMUtils.parseXml(XMLDOMUtils.getNodeText(respuesta));
+			payload = XMLDOMUtils.parseXml(respuesta.getTextContent());
 			if (payload==null)
 			{
 				throw new SystemException ("No se ha recibido una respuesta válida o la respuesta está vacía.");
@@ -270,6 +270,7 @@ public class AdaptadorAFirma {
 		}
 		catch (XMLDOMDocumentException e)
 		{
+			System.err.println(e);
 			throw new SystemException ("Error en llamada a validación de certificado en plataforma remota:"+e.getMessage(),e);
 		}
 	}
